@@ -1,0 +1,15 @@
+{% extends 'blog/base_blog.html' %}
+{% block title %}
+    Posts list
+{% endblock %}
+{% block content %}
+            {% for item in data %}
+        <div class="post" style="border: 4px double black; padding: 0px 20px; width: 95%; margin-top: 5px">
+            <p style="color: red;">Title: <a href="{% url 'post_detail_url' id=item.id %}">{{item.name}}</a></p>
+            <p>Content: {{item.content}}</p>
+            <p>Views: {{item.views}}</p>
+            <p>Created_at: {{item.create_at}}</p>
+            <a href="/app_first/update_post/{{ item.id}}">Edit</a>
+        </div>
+        {% endfor %}
+{% endblock %}

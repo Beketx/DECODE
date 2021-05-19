@@ -1,0 +1,12 @@
+{% extends 'blog/base_blog.html' %}
+{% block title %}
+    Login page - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <form class="" style="width: 150px" action="{% url 'login_url' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-primary" value="Login">
+    </form>
+{% endblock %}

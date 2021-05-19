@@ -1,0 +1,17 @@
+{% extends 'blog/base_blog.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="post" >
+        <p><b>Title:</b> {{data.name}}</p>
+        <p><b>Content:</b> {{data.content}}</p>
+        <p><b>Views:</b> {{data.views}}</p>
+        <a href="/app_first/delete_post/{{ data.id}}">Delete</a>
+        <img src = "../../{{data.cover}}"/>
+    </div>
+{% endblock %}
