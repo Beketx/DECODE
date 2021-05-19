@@ -128,8 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .DS_Store
-django4/.DS_Store
+.idea
 django4/.idea
+django4/.Ds
 
 
 nodejs.jpg
