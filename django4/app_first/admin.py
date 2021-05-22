@@ -7,3 +7,4 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('name', 'content')
 
 admin.site.register(models.Post, PostAdmin)
+admin.site.register(models.Blogger)

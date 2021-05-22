@@ -2,7 +2,8 @@ from django.urls import path
 from app_first.views import main_page, cv, post_detailed, post_list, \
                             create_post, update_post,delete_post,\
                             PostLISTAPI, PostCreateAPI, PostDeleteUpdateAPI,\
-                            LoginView
+                            LoginView, LogoutViewCustom, RegisterView
+from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
@@ -18,5 +19,8 @@ urlpatterns = [
     path('update_delete/<int:id>', PostDeleteUpdateAPI.as_view()),
 
     path('login/', LoginView.as_view(), name='login_url'),
+    # path('logout/', LogoutView.as_view(), name='logout_url'),
+    path('logout/', LogoutViewCustom.as_view(), name='logout_url'),
+    path('register', RegisterView.as_view(), name='register_url')
 
 ]
