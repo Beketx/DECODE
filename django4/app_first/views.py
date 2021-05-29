@@ -3,8 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from app_first.models import Post, Blogger
 from app_first.forms import PostForm, LoginForm, RegistrationForm
 from django.views import View
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator
 
 def main_page(request): # FBV - Functional Based View
     data = {
@@ -85,19 +86,43 @@ class PostLISTAPI(View):
 
     def get(self, request):
         data = Post.objects.all().values()
+        paginator = Paginator(data, 2)
+        # page_number = paginator.get_page(2)
 
-        return render(request, 'posts.html', {"data": data})
+        page_number = request.GET.get('page', 1)
+        page = paginator.get_page(page_number)
+        is_paginated = page.has_other_pages()
 
-class PostCreateAPI(View):
+        if page.has_previous():
+            prev_url = '?page={}'.format(page.previous_page_number())
+        else:
+            prev_url = ''
+
+        if page.has_next():
+            next_url = '?page={}'.format(page.next_page_number())
+        else:
+            next_url = ''
+
+        context = {
+            'data': page,
+            'is_paginated': is_paginated,
+            'next_url': next_url,
+            'prev_url': prev_url
+        }
+        return render(request, 'blog/posts.html', context=context)
+
+class PostCreateAPI(LoginRequiredMixin, View):
+    raise_exception = True
     def get(self, request):
         form = PostForm()
-        return render(request, 'create_post.html', {'form': form})
+        return render(request, 'blog/create_post.html', {'form': form})
+
     def post(self, request):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             # print(form)
             form.save()
-        return render(request, 'create_post.html', {'form': form})
+        return render(request, 'blog/create_post.html', {'form': form})
 
 class PostDeleteUpdateAPI(View):
     def delete(self, request, id):

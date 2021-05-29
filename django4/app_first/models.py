@@ -9,6 +9,9 @@ class Post(models.Model):
     create_at = models.DateTimeField(auto_now=True)
     views = models.IntegerField(default=0)
 
+    class Meta:
+        ordering = ['create_at']
+
 class Blogger(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=20, null=True, blank=True)
