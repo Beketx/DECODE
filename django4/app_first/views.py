@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from app_first.models import Post, Blogger
@@ -6,6 +7,8 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
+
+
 
 def main_page(request): # FBV - Functional Based View
     data = {
@@ -85,7 +88,13 @@ def delete_post(request, id):
 class PostLISTAPI(View):
 
     def get(self, request):
-        data = Post.objects.all().values()
+        search_posts = request.GET.get('search', '') #a
+
+        if search_posts:
+            data = Post.objects.filter(Q(name__icontains=search_posts) | Q(content=search_posts))
+
+        else:
+            data = Post.objects.all().values()
         paginator = Paginator(data, 2)
         # page_number = paginator.get_page(2)
 
@@ -125,14 +134,17 @@ class PostCreateAPI(LoginRequiredMixin, View):
         return render(request, 'blog/create_post.html', {'form': form})
 
 class PostDeleteUpdateAPI(View):
+
     def delete(self, request, id):
         data = Post.objects.get(id=id)
         data.delete()
         return HttpResponse("<p>deleted<p>")
+
     def get(self, request, id):
         data = Post.objects.get(id=id)
         form = PostForm(instance=data)
         return render(request, "create_post.html", {'form': form})
+
     def post(self, request, id):
         data = Post.objects.get(id=id)
         form = PostForm(instance=data, data=request.POST)

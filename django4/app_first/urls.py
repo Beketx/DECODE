@@ -14,7 +14,7 @@ urlpatterns = [
     path('posts/<int:id>', post_detailed, name='post_detail_url'),
     path('update_post/<int:id>', update_post),
     path('delete_post/<int:id>', delete_post),
-    path('class_posts/', PostLISTAPI.as_view()),
+    path('class_posts/', PostLISTAPI.as_view(), name='posts_url'),
     path('create_class_post/', PostCreateAPI.as_view()),
     path('update_delete/<int:id>', PostDeleteUpdateAPI.as_view()),
 

@@ -17,6 +17,9 @@ class Blogger(models.Model):
     phone = models.CharField(max_length=20, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
 
+class Tag(models.Model):
+    address = models.CharField(max_length=200, blank=True)
+
 """
 
 pf = PostForm()
