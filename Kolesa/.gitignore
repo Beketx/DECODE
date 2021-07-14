@@ -1,0 +1,11 @@
+venv
+.idea
+*/migrations/*.py
+.mypy_cache
+media/
+!*/migrations/
+!*/migrations/__init__.py
+!auth_/migrations/0001_initial.py
+!main/migrations/0001_initial.py
+settings.py
+__pycache__/
